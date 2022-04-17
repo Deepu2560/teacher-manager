@@ -23,7 +23,16 @@ router.post("", async (req, res) => {
 
 router.get("", async (req, res) => {
   try {
-    const user = await Teacher.find().lean().exec();
+    const page = req.query.page || 1;
+    const size = 10;
+
+    const totalPage = Math.ceil((await Teacher.find().countDocuments()) / size);
+
+    const user = await Teacher.find()
+      .skip((page - 1) * size)
+      .limit(size)
+      .lean()
+      .exec();
 
     console.log("Showing all documents of teacher");
 
