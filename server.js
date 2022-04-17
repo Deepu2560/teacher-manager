@@ -13,9 +13,13 @@ const teacherController = require("./src/Controllers/teacher_controller");
 
 const classController = require("./src/Controllers/classes_contoller");
 
+const adminController = require("./src/Controllers/admin_controller");
+
 app.use("/teacher", teacherController);
 
 app.use("/classes", classController);
+
+app.use("/admin", adminController);
 
 /* app.listen to start server on 8080 port */
 app.listen(8080, async () => {
