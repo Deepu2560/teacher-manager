@@ -10,6 +10,7 @@ const classschema = new mongoose.Schema(
     grade: { type: String, required: true },
     section: { type: String, required: true },
     subject: { type: String, required: true },
+    day: { type: String, required: true },
   },
   {
     versionKey: false,
@@ -17,6 +18,4 @@ const classschema = new mongoose.Schema(
   },
 );
 
-const Classes = mongoose.model("class", classschema);
-
-module.exports = Classes;
+module.exports = mongoose.model("class", classschema);
