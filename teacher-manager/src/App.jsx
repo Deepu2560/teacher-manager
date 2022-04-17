@@ -1,18 +1,23 @@
+import React from "react";
 import "./App.css";
-import { Addteacher } from "./Components/Pages/Add_Teacher/addTeacher";
-import { TeacherSchedule } from "./Components/Pages/Add_Teacher_schedule/addTeacherSchedule";
-import { LogInPageAdmin } from "./Components/Pages/Auth/LogInAdmin";
 import { Navbar } from "./Components/Pages/Navbar/Navbar";
-import { Homepage } from "./Components/Pages/HomePage/home";
+import { Allroutes } from "./Components/routes";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { isAuth, isLoading } = useSelector((state) => state.login);
+
   return (
     <div>
-      <Navbar />
-      {/* <LogInPageAdmin /> */}
-      {/* <TeacherSchedule /> */}
-      {/* <Addteacher /> */}
-      <Homepage />
+      {isAuth == true ? <Navbar /> : null}
+      <div>
+        {isLoading == true ? (
+          <div>
+            <h1>Wait while loading...</h1>
+          </div>
+        ) : null}
+        <Allroutes />
+      </div>
     </div>
   );
 }

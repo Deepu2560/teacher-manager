@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   loginError,
   loginLoading,
-  loginSuccess,
+  signupSuccess,
 } from "../../Redux/Login/loginAction";
 import { useNavigate } from "react-router";
 
-export const LogInPageAdmin = () => {
+export const Addnewadmin = () => {
   const Div = styled.div`
     width: 80%;
     margin: auto;
@@ -20,7 +20,16 @@ export const LogInPageAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuth == false) {
+      navigate("/");
+    }
+  }, []);
+
   const samplelogin = {
+    name: "",
+    email: "",
+    mobile: "",
     username: "",
     password: "",
   };
@@ -28,6 +37,7 @@ export const LogInPageAdmin = () => {
   const [userData, setuserData] = useState(samplelogin);
 
   const handleChange = (event) => {
+    event.preventDefault();
     let { name, value } = event.target;
 
     setuserData((prev) => ({ ...prev, [name]: value }));
@@ -37,20 +47,21 @@ export const LogInPageAdmin = () => {
     // console.log(userData);
     dispatch(loginLoading());
     axios
-      .post("https://teacher-manager.herokuapp.com/admin/login", userData)
+      .post("https://teacher-manager.herokuapp.com/admin/register", userData)
       .then((res) => {
         let { error, token } = res.data;
 
         if (error) {
           dispatch(loginError());
         } else {
-          dispatch(loginSuccess(token));
+          //   console.log(res.data);
+          dispatch(signupSuccess());
           navigate("/Home");
         }
       });
   };
 
-  const { username, password } = userData;
+  const { username, password, name, email, mobile } = userData;
   return (
     <Div>
       <h1 style={{ textAlign: "center" }}>LOG IN AS ADMIN</h1>
@@ -58,10 +69,34 @@ export const LogInPageAdmin = () => {
         Provide our login credential below. This is only for Admin
       </p>
       <FormGroup>
+        <FormLabel style={{ fontSize: "larger" }}>Name</FormLabel>
+        <Input
+          type={"text"}
+          placeholder="Enter person name here"
+          name="name"
+          defaultValue={name}
+          onChange={(event) => handleChange(event)}
+        />
+        <FormLabel style={{ fontSize: "larger" }}>Email</FormLabel>
+        <Input
+          type={"text"}
+          placeholder="Enter person email here"
+          name="email"
+          defaultValue={email}
+          onChange={(event) => handleChange(event)}
+        />
+        <FormLabel style={{ fontSize: "larger" }}>mobile</FormLabel>
+        <Input
+          type={"text"}
+          placeholder="Enter mobile here"
+          name="mobile"
+          defaultValue={mobile}
+          onChange={(event) => handleChange(event)}
+        />
         <FormLabel style={{ fontSize: "larger" }}>Username</FormLabel>
         <Input
           type={"text"}
-          placeholder="Enter admin username provided by school"
+          placeholder="Enter username here"
           name="username"
           defaultValue={username}
           onChange={(event) => handleChange(event)}
@@ -71,7 +106,7 @@ export const LogInPageAdmin = () => {
         </FormLabel>
         <Input
           type={"password"}
-          placeholder="Enter admin password Provided by school"
+          placeholder="Enter admin password here"
           name="password"
           defaultValue={password}
           onChange={(event) => handleChange(event)}
@@ -88,7 +123,7 @@ export const LogInPageAdmin = () => {
         variant="contained"
         onClick={() => handleSubmit()}
       >
-        LOG IN
+        SIGN UP
       </Button>
     </Div>
   );

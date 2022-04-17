@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import {
   FormGroup,
@@ -8,6 +8,13 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import axios from "axios";
+import {
+  teacherError,
+  teacherLoading,
+} from "../../Redux/teacher/teacherAction";
 
 export const Addteacher = () => {
   const DIV = styled.div`
@@ -15,21 +22,95 @@ export const Addteacher = () => {
     margin: auto;
     text-align: center;
   `;
+
+  const { isAuth } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuth == false) {
+      navigate("/");
+    }
+  }, []);
+
+  const sampleteacherdata = {
+    name: "",
+    gender: "",
+    age: "",
+  };
+
+  const [teaceherData, setteaceherData] = useState(sampleteacherdata);
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    let { name, value } = event.target;
+
+    setteaceherData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    // console.log(teaceherData);
+    dispatch(teacherLoading());
+    axios
+      .post("https://teacher-manager.herokuapp.com/teacher", teaceherData)
+      .then((res) => {
+        let { error, teachers } = res.data;
+
+        if (error) {
+          dispatch(teacherError());
+        } else {
+          //   console.log(res.data);
+          let { _id } = teachers;
+          navigate(`/add-teacher-schedule/${_id}`);
+        }
+      });
+  };
+
+  const { name, gender, age } = teaceherData;
+
   return (
     <DIV>
       <h1>Add Teacher</h1>
       <FormGroup>
         <FormLabel style={{ fontSize: "larger" }}>Nmae</FormLabel>
-        <TextField type={"text"} placeholder="Enter Teacher Name" />
+        <TextField
+          type={"text"}
+          placeholder="Enter Teacher Name"
+          name="name"
+          defaultValue={name}
+          onChange={(event) => handleChange(event)}
+        />
         <FormLabel style={{ fontSize: "larger" }}>Gender</FormLabel>
-        <Select defaultValue={""}>
-          <MenuItem value={"male"}>Male</MenuItem>
-          <MenuItem value={"female"}>Female</MenuItem>
+        <Select
+          placeholder="Enter"
+          name="gender"
+          defaultValue={gender}
+          onChange={(event) => handleChange(event)}
+        >
+          <MenuItem value={"Male"}>Male</MenuItem>
+          <MenuItem value={"Female"}>Female</MenuItem>
         </Select>
         <FormLabel style={{ fontSize: "larger" }}>Age</FormLabel>
-        <TextField type={"number"} placeholder="Enter teacher age" />
+        <TextField
+          type={"number"}
+          placeholder="Enter teacher age"
+          name="age"
+          defaultValue={age}
+          onChange={(event) => handleChange(event)}
+        />
       </FormGroup>
-      <Button>Save</Button>
+      <Button
+        style={{
+          textAlign: "center",
+          fontSize: "larger",
+          fontWeight: "bolder",
+          marginTop: "20px",
+        }}
+        variant="contained"
+        onClick={() => handleSubmit()}
+      >
+        Add schedule for teacher
+      </Button>
     </DIV>
   );
 };
