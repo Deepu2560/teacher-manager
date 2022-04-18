@@ -18,6 +18,7 @@ import {
   teacherLoading,
   teacherError,
   teacherSuccess,
+  teacherDelete,
 } from "../../Redux/teacher/teacherAction";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -91,7 +92,18 @@ export const Homepage = () => {
   const deleteCity = (id) => {
     axios
       .delete(`https://teacher-manager.herokuapp.com/teacher/${id}`)
-      .then(() => getData());
+      .then((res) => {
+        let { error } = res.data;
+
+        if (error) {
+          alert("ERROR! something went wrong try again");
+          dispatch(teacherError());
+        } else {
+          alert("Teacher DELETED SUCCESSFULLY");
+          dispatch(teacherDelete());
+          getData("all");
+        }
+      });
   };
   return (
     <div className="main-div">

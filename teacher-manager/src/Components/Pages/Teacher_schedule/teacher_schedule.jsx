@@ -14,6 +14,7 @@ import {
   classesLoading,
   classesError,
   classesSuccess,
+  classesDelete,
 } from "../../Redux/classes/classAction";
 import axios from "axios";
 
@@ -61,14 +62,15 @@ export const ShowteacherData = () => {
     dispatch(classesLoading());
     axios
       .delete(`https://teacher-manager.herokuapp.com/classes/${id}`)
-      .then(() => {
+      .then((res) => {
         let { error } = res.data;
 
         if (error) {
           dispatch(classesError());
         } else {
           alert("Class Delete");
-          setclassesData([...teachers]);
+          dispatch(classesDelete());
+          getData();
         }
       });
   };

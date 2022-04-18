@@ -1,8 +1,14 @@
-import { CLASSES, CLASSES_LOADING, CLASSES_SUCCESS } from "./classAction";
+import {
+  CLASSES,
+  CLASSES_LOADING,
+  CLASSES_ERROR,
+  CLASSES_DELETE,
+} from "./classAction";
 
 const inialStore = {
   isLoading: false,
   classList: [],
+  isError: false,
 };
 
 export const ClassesReducer = (store = inialStore, { type, payload }) => {
@@ -11,15 +17,25 @@ export const ClassesReducer = (store = inialStore, { type, payload }) => {
       return {
         isLoading: false,
         classList: [...payload],
+        isError: false,
       };
     case CLASSES_LOADING:
       return {
         isLoading: true,
+        classList: store.classList,
+        isError: false,
       };
-    case CLASSES_SUCCESS:
+    case CLASSES_ERROR:
       return {
         isLoading: false,
         classList: store.classList,
+        isError: true,
+      };
+    case CLASSES_DELETE:
+      return {
+        isLoading: false,
+        classList: store.classList,
+        isError: false,
       };
     default:
       return store;
