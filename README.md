@@ -1,13 +1,19 @@
-# teacher-manager
-This is a small project on school admin to make watch on all teachers and their scheduled lectures. 
+<h1 align="center">Teacher Manager (School Admin Application)</h1>
+<h4 align="center">This is a school admin page. In this page you admin can make a watch on teacher and scheduled classes. At first you have to log in as a admin you can use given credential to login to this application.</h4> 
 
-to start code
+<hr/>
 
-
-Login credential :- 
-
-
- usename: deepanshu123
- 
- 
- password: teach@1234
+<p><strong>For reference you visit this videos:-</strong> <a href="https://drive.google.com/drive/folders/1PTASkKVn_9I3pf6jEXbss0gxEO46oxBE?usp=sharing">CLICK ME</a></p>
+<strong>Login Credential :- </strong>
+<br/>
+<ul>
+ <li>usename: deepanshu123</li>
+ <li>password: teach@1234</li>
+</ul>
+<br/>
+<strong>Tech Stack :- </strong>
+<br/>
+<ul>
+ <li>React | Redux | Material UI | Express | MongoDB | Node.js | Javascript | HTML | CSS</li>
+</ul>
+<hr/>
