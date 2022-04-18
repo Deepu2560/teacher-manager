@@ -59,18 +59,23 @@ export const Addteacher = () => {
 
         if (error) {
           dispatch(teacherError());
+          alert("ERROR! check all input carefully");
         } else {
           //   console.log(res.data);
           let { _id } = teachers;
           navigate(`/add-teacher-schedule/${_id}`);
         }
+      })
+      .catch((err) => {
+        dispatch(classesError());
+        alert("ERROR! 404 error. TRY AGAIN LATER");
       });
   };
 
   const { name, gender, age } = teaceherData;
 
   return (
-    <DIV>
+    <div className="main-div">
       <h1>Add Teacher</h1>
       <FormGroup>
         <FormLabel style={{ fontSize: "larger" }}>Nmae</FormLabel>
@@ -93,6 +98,7 @@ export const Addteacher = () => {
         </Select>
         <FormLabel style={{ fontSize: "larger" }}>Age</FormLabel>
         <TextField
+          autoFocus
           type={"number"}
           placeholder="Enter teacher age"
           name="age"
@@ -107,11 +113,12 @@ export const Addteacher = () => {
           fontWeight: "bolder",
           marginTop: "20px",
         }}
+        disabled={!name || !gender || !age}
         variant="contained"
         onClick={() => handleSubmit()}
       >
         Add schedule for teacher
       </Button>
-    </DIV>
+    </div>
   );
 };

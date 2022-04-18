@@ -12,14 +12,14 @@ import { useNavigate } from "react-router";
 
 export const LogInPageAdmin = () => {
   document.title = "Admin Log-In Page | Deepanshu Gulia";
-  const Div = styled.div`
-    width: 80%;
-    margin: auto;
-  `;
 
   const { isAuth } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  if (isAuth == true) {
+    navigate("/Home");
+  }
 
   const samplelogin = {
     username: "",
@@ -44,16 +44,21 @@ export const LogInPageAdmin = () => {
 
         if (error) {
           dispatch(loginError());
+          alert("ERRRO! check username or password");
         } else {
           dispatch(loginSuccess(token));
           navigate("/Home");
         }
+      })
+      .catch((err) => {
+        dispatch(loginError());
+        alert("ERRRO! check username or password");
       });
   };
 
   const { username, password } = userData;
   return (
-    <Div>
+    <div className="main-div">
       <h1 style={{ textAlign: "center" }}>LOG IN AS ADMIN</h1>
       <p style={{ textAlign: "center" }}>
         Provide our login credential below. This is only for Admin
@@ -65,6 +70,7 @@ export const LogInPageAdmin = () => {
           placeholder="Enter admin username provided by school"
           name="username"
           defaultValue={username}
+          autoFocus
           onChange={(event) => handleChange(event)}
         />
         <FormLabel style={{ fontSize: "larger", marginTop: "20px" }}>
@@ -74,6 +80,7 @@ export const LogInPageAdmin = () => {
           type={"password"}
           placeholder="Enter admin password Provided by school"
           name="password"
+          autoFocus
           defaultValue={password}
           onChange={(event) => handleChange(event)}
         />
@@ -86,11 +93,12 @@ export const LogInPageAdmin = () => {
           margin: "auto",
           marginTop: "20px",
         }}
+        disabled={!username || !password}
         variant="contained"
         onClick={() => handleSubmit()}
       >
         LOG IN
       </Button>
-    </Div>
+    </div>
   );
 };

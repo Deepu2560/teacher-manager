@@ -89,7 +89,7 @@ export const ShowteacherData = () => {
       >
         Add schedule for teacher
       </Button>
-      <Table>
+      <Table className="table-display">
         <TableHead>
           <TableRow>
             <TableCell style={{ border: "1px solid gray" }}>day</TableCell>

@@ -8,6 +8,9 @@ import {
   TableCell,
   Button,
   ButtonGroup,
+  Select,
+  Input,
+  MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,10 +24,6 @@ import { Link } from "react-router-dom";
 
 export const Homepage = () => {
   document.title = "Home | Deepanshu Gulia";
-  const Div = styled.div`
-    width: 90%;
-    margin: auto;
-  `;
 
   const { isAuth } = useSelector((state) => state.login);
   const navigate = useNavigate();
@@ -38,11 +37,23 @@ export const Homepage = () => {
       navigate("/");
     }
   }, []);
-  useEffect(() => getData(), []);
+  useEffect(() => getData("all"), []);
 
   const teachers = useSelector((state) => state.teacher.teacherList);
 
-  const getData = () => {
+  const filterData = ({ target }) => {
+    let { value } = target;
+
+    getData(value);
+  };
+
+  const handlesortData = ({ target }) => {
+    let { value } = target;
+
+    getData(value);
+  };
+
+  const getData = (prop) => {
     dispatch(teacherLoading());
     axios
       .get(`https://teacher-manager.herokuapp.com/teacher?page=${page}`)
@@ -52,8 +63,27 @@ export const Homepage = () => {
         if (error) {
           dispatch(teacherError());
         } else {
-          dispatch(teacherSuccess(teachers));
-          setteacherdata([...teachers]);
+          if (prop == "all") {
+            dispatch(teacherSuccess(teachers));
+            setteacherdata([...teachers]);
+          } else if (prop == "Male" || prop == "Female") {
+            let filterData = teachers.filter((elem) => {
+              return elem.gender == prop;
+            });
+            dispatch(teacherSuccess(filterData));
+            setteacherdata([...filterData]);
+          } else if (prop == "low" || prop == "high") {
+            let sortData = teacherdata;
+
+            if (prop == "low") {
+              sortData.sort((a, b) => +a.age - +b.age);
+            } else {
+              sortData.sort((a, b) => +b.age - +a.age);
+            }
+
+            dispatch(teacherSuccess(sortData));
+            setteacherdata([...sortData]);
+          }
         }
       });
   };
@@ -64,9 +94,36 @@ export const Homepage = () => {
       .then(() => getData());
   };
   return (
-    <Div>
+    <div className="main-div">
       <h1>Teacher's List</h1>
-      <Table>
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div>
+          <h4 style={{ textAlign: "center", margin: "5px" }}>
+            Filter by gender:
+          </h4>
+          <Select
+            style={{ width: "200px", margin: "10px" }}
+            defaultValue={""}
+            onChange={(event) => filterData(event)}
+          >
+            <MenuItem value={"all"}>All</MenuItem>
+            <MenuItem value={"Male"}>Male</MenuItem>
+            <MenuItem value={"Female"}>Female</MenuItem>
+          </Select>
+        </div>
+        <div>
+          <h4 style={{ textAlign: "center", margin: "5px" }}>Sort by age:</h4>
+          <Select
+            style={{ width: "200px", margin: "10px" }}
+            defaultValue={""}
+            onChange={(event) => handlesortData(event)}
+          >
+            <MenuItem value={"low"}>Low - High</MenuItem>
+            <MenuItem value={"high"}>High - Low</MenuItem>
+          </Select>
+        </div>
+      </div>
+      <Table className="table-display">
         <TableHead>
           <TableRow>
             <TableCell style={{ border: "1px solid gray" }}>ID</TableCell>
@@ -103,9 +160,16 @@ export const Homepage = () => {
           ))}
         </TableBody>
       </Table>
-      <div style={{ display: "flex", justifyContent: "right", gap: "10px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "right",
+          gap: "10px",
+          margin: "10px",
+        }}
+      >
         <Button
-          variant="outlined"
+          variant="contained"
           disabled={page == 1}
           onClick={() => setpage((prev) => prev - 1)}
         >
@@ -113,13 +177,13 @@ export const Homepage = () => {
         </Button>
         <h3>{page}</h3>
         <Button
-          variant="outlined"
+          variant="contained"
           disabled={teacherdata.length < size}
           onClick={() => setpage((prev) => prev + 1)}
         >
           Next
         </Button>
       </div>
-    </Div>
+    </div>
   );
 };

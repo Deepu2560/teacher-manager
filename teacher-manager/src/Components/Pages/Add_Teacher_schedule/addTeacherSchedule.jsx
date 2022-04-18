@@ -59,17 +59,22 @@ export const TeacherSchedule = () => {
 
         if (error) {
           dispatch(classesError());
+          alert("ERROR! check all input carefully");
         } else {
           alert("Class added");
           navigate("/Home");
         }
+      })
+      .catch((err) => {
+        dispatch(classesError());
+        alert("ERROR! 404 error. TRY AGAIN LATER");
       });
   };
 
   const { grade, section, subject, day } = classesData;
 
   return (
-    <DIV>
+    <div className="main-div">
       <h1>Add Teacher Schedule</h1>
       <FormGroup>
         <FormLabel style={{ fontSize: "larger" }}>Teacher Id : {id}</FormLabel>
@@ -135,6 +140,6 @@ export const TeacherSchedule = () => {
       >
         Add schedule for teacher
       </Button>
-    </DIV>
+    </div>
   );
 };

@@ -8,10 +8,11 @@ import {
   loginLoading,
   signupSuccess,
 } from "../../Redux/Login/loginAction";
-import { useNavigate } from "react-router";
+import { useNavigate, useNavigationType } from "react-router";
 
 export const Addnewadmin = () => {
   document.title = "Add New Admin form | Deepanshu Gulia";
+
   const Div = styled.div`
     width: 80%;
     margin: auto;
@@ -54,17 +55,22 @@ export const Addnewadmin = () => {
 
         if (error) {
           dispatch(loginError());
+          alert("ERROR! check all input carefully");
         } else {
           //   console.log(res.data);
           dispatch(signupSuccess());
           navigate("/Home");
         }
+      })
+      .catch((err) => {
+        dispatch(loginError());
+        alert("ERROR! 404 error. TRY AGAIN LATER");
       });
   };
 
   const { username, password, name, email, mobile } = userData;
   return (
-    <Div>
+    <div className="main-div">
       <h1 style={{ textAlign: "center" }}>LOG IN AS ADMIN</h1>
       <p style={{ textAlign: "center" }}>
         Provide our login credential below. This is only for Admin
@@ -121,11 +127,12 @@ export const Addnewadmin = () => {
           margin: "auto",
           marginTop: "20px",
         }}
+        disabled={!password || !email || !username || !mobile || !name}
         variant="contained"
         onClick={() => handleSubmit()}
       >
         SIGN UP
       </Button>
-    </Div>
+    </div>
   );
 };

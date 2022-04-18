@@ -8,7 +8,7 @@ function App() {
   const state = useSelector((state) => state);
 
   return (
-    <div>
+    <div id="app">
       {state.login.isAuth == true ? <Navbar /> : null}
       <div>
         {state.login.isLoading == true ||
