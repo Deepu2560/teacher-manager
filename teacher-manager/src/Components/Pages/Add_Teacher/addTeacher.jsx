@@ -17,6 +17,7 @@ import {
 } from "../../Redux/teacher/teacherAction";
 
 export const Addteacher = () => {
+  document.title = "Add Teacher Form | Deepanshu Gulia";
   const DIV = styled.div`
     width: 80%;
     margin: auto;

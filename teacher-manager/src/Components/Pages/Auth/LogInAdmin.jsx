@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router";
 
 export const LogInPageAdmin = () => {
+  document.title = "Admin Log-In Page | Deepanshu Gulia";
   const Div = styled.div`
     width: 80%;
     margin: auto;
@@ -27,8 +28,8 @@ export const LogInPageAdmin = () => {
 
   const [userData, setuserData] = useState(samplelogin);
 
-  const handleChange = (event) => {
-    let { name, value } = event.target;
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
 
     setuserData((prev) => ({ ...prev, [name]: value }));
   };

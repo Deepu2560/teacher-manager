@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router";
 
 export const Addnewadmin = () => {
+  document.title = "Add New Admin form | Deepanshu Gulia";
   const Div = styled.div`
     width: 80%;
     margin: auto;

@@ -14,6 +14,7 @@ import axios from "axios";
 import { classesError, classesLoading } from "../../Redux/classes/classAction";
 
 export const TeacherSchedule = () => {
+  document.title = "Add Teacher Schedule | Deepanshu Gulia";
   const DIV = styled.div`
     width: 80%;
     margin: auto;

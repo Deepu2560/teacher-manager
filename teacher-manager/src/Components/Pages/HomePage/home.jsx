@@ -20,6 +20,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export const Homepage = () => {
+  document.title = "Home | Deepanshu Gulia";
   const Div = styled.div`
     width: 90%;
     margin: auto;

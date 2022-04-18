@@ -5,13 +5,15 @@ import { Allroutes } from "./Components/routes";
 import { useSelector } from "react-redux";
 
 function App() {
-  const { isAuth, isLoading } = useSelector((state) => state.login);
+  const state = useSelector((state) => state);
 
   return (
     <div>
-      {isAuth == true ? <Navbar /> : null}
+      {state.login.isAuth == true ? <Navbar /> : null}
       <div>
-        {isLoading == true ? (
+        {state.login.isLoading == true ||
+        state.classes.isLoading == true ||
+        state.teacher.isLoading == true ? (
           <div>
             <h1>Wait while loading...</h1>
           </div>

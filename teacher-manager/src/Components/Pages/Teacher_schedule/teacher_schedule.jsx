@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 
 export const ShowteacherData = () => {
+  document.title = "Teacher Schedule | Deepanshu Gulia";
   const Div = styled.div`
     width: 90%;
     margin: auto;
