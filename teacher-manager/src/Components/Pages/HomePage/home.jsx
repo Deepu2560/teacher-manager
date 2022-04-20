@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -12,7 +11,6 @@ import {
   Input,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import {
   teacherLoading,
@@ -21,13 +19,12 @@ import {
   teacherDelete,
 } from "../../Redux/teacher/teacherAction";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export const Homepage = () => {
   document.title = "Home | Deepanshu Gulia";
 
   const { isAuth } = useSelector((state) => state.login);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [teacherdata, setteacherdata] = useState([]);
@@ -35,7 +32,7 @@ export const Homepage = () => {
   const size = 10;
   useEffect(() => {
     if (isAuth == false) {
-      navigate("/");
+      return <Navigate to="/" />;
     }
   }, []);
   useEffect(() => getData("all"), []);
