@@ -8,25 +8,21 @@ import {
   loginLoading,
   loginSuccess,
 } from "../../Redux/Login/loginAction";
-import { useNavigate } from "react-router";
+import { useNavigate, Navigate } from "react-router-dom";
+
+const samplelogin = {
+  username: "",
+  password: "",
+};
 
 export const LogInPageAdmin = () => {
+  const [userData, setuserData] = useState(samplelogin);
+
   document.title = "Admin Log-In Page | Deepanshu Gulia";
 
   const { isAuth } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  if (isAuth == true) {
-    navigate("/Home");
-  }
-
-  const samplelogin = {
-    username: "",
-    password: "",
-  };
-
-  const [userData, setuserData] = useState(samplelogin);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -52,11 +48,16 @@ export const LogInPageAdmin = () => {
       })
       .catch((err) => {
         dispatch(loginError());
-        alert("ERRRO! check username or password");
+        alert("ERRRO! Something went wrong. TRY AGAIN later");
       });
   };
 
   const { username, password } = userData;
+
+  if (isAuth == true) {
+    return <Navigate to="/Home" />;
+  }
+
   return (
     <div className="main-div">
       <h1 style={{ textAlign: "center" }}>LOG IN AS ADMIN</h1>
